@@ -1,104 +1,78 @@
 #include "sort.h"
 
 /**
- * quick_sort - Sorts an array of integers using quick sort algorithm
- * @array: The array to sort
- * @size: The size of the array
- *
- * Return: Nothing
- */
-
+  * quick_sort - ...
+  * @array: ...
+  * @size: ...
+  *
+  * Return: Nothing!
+  */
 void quick_sort(int *array, size_t size)
 {
-	size_t pivot;
-
 	if (!array || size < 2)
 		return;
 
-	print_sort(array, size, 1);
-
-	pivot = partition(array, size);
-
-	quick_sort(array, pivot);
-
-	quick_sort(array + pivot, size - pivot);
-
+	quick_sort_rec(array, 0, size - 1, size);
 }
 
 /**
- * swap - Swaps two values
- * @a: The first integer
- * @b: The second integer
- *
- * Return: Nothing
- */
-
-void swap(int *a, int *b)
+  * quick_sort_rec - ...
+  * @array: ...
+  * @lower: ...
+  * @higher: ...
+  * @size: ...
+  *
+  * Return: Nothing!
+  */
+void quick_sort_rec(int *array, int lower, int higher, size_t size)
 {
-	int temp;
+	int l_p = 0;
 
-	temp = *a;
-	*a = *b;
-	*b = temp;
-}
-
-/**
- * partition - Sets the pivot for quick sort
- * @array: The array to partition
- * @size: The size of the array
- *
- * Return: (i+1)
- */
-
-size_t partition(int array[], size_t size)
-{
-	int pivot;
-	size_t i = -1;
-	size_t j;
-
-	if (!array || size < 2)
-		return (0);
-
-	pivot = array[size - 1];
-
-	for (j = 0; j < size - 1; j++)
+	if (lower < higher)
 	{
-		if (array[j] <= pivot)
+		l_p = lomuto_partition(array, lower, higher, size);
+		quick_sort_rec(array, lower, l_p - 1, size);
+		quick_sort_rec(array, l_p + 1, higher, size);
+	}
+}
+
+/**
+  * lomuto_partition - ...
+  * @array: ...
+  * @lower: ...
+  * @higher: ...
+  * @size: ...
+  *
+  * Return: Nothing!
+  */
+int lomuto_partition(int *array, int lower, int higher, size_t size)
+{
+	int i = 0, j = 0, pivot = 0, aux = 0;
+
+	pivot = array[higher];
+	i = lower;
+
+	for (j = lower; j < higher; ++j)
+	{
+		if (array[j] < pivot)
 		{
-			i++;
-			if (i != j)
-			{
-				swap(&array[i], &array[j]);
-				print_sort(array, size, 0);
-			}
+			aux = array[i];
+			array[i] = array[j];
+			array[j] = aux;
+
+			if (aux != array[i])
+				print_array(array, size);
+
+			++i;
 		}
 	}
-	if (i + 1 != size - 1)
-	{
-		swap(&array[i + 1], &array[size - 1]);
-		print_sort(array, size, 0);
-	}
-	return (i + 1);
-}
 
-/**
- * print_sort - Function that prints as it should
- * @array: Array to be printed
- * @size: Size of array
- * @init: Should initialize array
- * Return: 0
- */
+	aux = array[i];
+	array[i] = array[higher];
+	array[higher] = aux;
 
-void print_sort(int array[], size_t size, int init)
-{
-	static int *p = (void *)0;
-	static size_t s;
+	if (aux != array[i])
+		print_array(array, size);
 
-	if (!p && init)
-	{
-		p = array;
-		s = size;
-	}
-	if (!init)
-		print_array(p, s);
+	return (i);
 }
