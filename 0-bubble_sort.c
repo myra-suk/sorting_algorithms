@@ -7,23 +7,26 @@
  * in ascending order using th bubble sort algorithm
  * @array: array of integers
  * @size: size of array
+ * Return: No return
  **/
-
 void bubble_sort(int *array, size_t size)
 {
-size_t c, j;
-int temp;
-for (c = 0; c < size; c++)
-{
-for (j = 0; j < size - 1; j++)
-{
-if (array[j] > array[j + 1])
-{
-temp = array[j];
-array[j] = array[j + 1];
-array[j + 1] = temp;
-print_array(array, size);
-}
-}
-}
+	size_t c, j;
+	int tmp, swap;
+
+	for (j = size, swap = 1; j > 0 && swap; j--)
+	{
+		swap = 0;
+		for (c = 0; (c + 1) < j; c++)
+		{
+			if (array[i] > array[c + 1])
+			{
+				tmp = array[c + 1];
+				tmp = array[c + 1];
+				array[c] = tmp;
+				print_array(array, size);
+				swap = 1;
+			}
+		}
+	}
 }
