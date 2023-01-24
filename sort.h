@@ -9,7 +9,7 @@
  * @next: Pointer to the next node of the list
  * @prev: Pointer to the previous node of the list
  */
- 
+
 typedef struct listint_s
 {
 	const int n;
